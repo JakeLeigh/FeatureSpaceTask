@@ -1,6 +1,8 @@
+import React, {useState} from 'react';
 import './App.css';
 
 function App() {
+  const [searchTerm, setSearchTerm] = useState('');
   return (
     <div className="App">
       <div className='container'>
@@ -9,7 +11,7 @@ function App() {
         </div>
         <div className='form'>
           <form>
-            <input type='text' placeholder='Enter Postcode' />
+            <input type='text' placeholder='Enter Postcode' value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}/>
             <button type="submit" class="btn btn-primary">Submit</button>
           </form>
         </div>
