@@ -4,12 +4,14 @@ import './App.css';
 
 function App() {
   const [searchTerm, setSearchTerm] = useState('');
+  const [results, setResults] = useState({});
 
   const callApi = (e) => {
     e.preventDefault();
     axios.get(`http://api.postcodes.io/postcodes/${searchTerm}`)
       .then(res => {
-        console.log(res)
+        console.log(res);
+        setResults(res.data.result);
       })
       .catch(err => {
         console.log(err)
@@ -26,6 +28,10 @@ function App() {
             <input type='text' placeholder='Enter Postcode' value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}/>
             <button type="submit" className="btn btn-primary" onClick={callApi}>Submit</button>
           </form>
+          <div className='resultsDiv'>
+            <h5>Country: <span id='country'>{results.country}</span></h5>
+            <h5>Region: <span id='region'>{results.region}</span></h5>
+          </div>
         </div>
       </div>
     </div>
