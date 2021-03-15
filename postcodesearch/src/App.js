@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import axios from 'axios';
 import './App.css';
 
 function App() {
@@ -6,7 +7,13 @@ function App() {
 
   const callApi = (e) => {
     e.preventDefault();
-    console.log(searchTerm);
+    axios.get(`http://api.postcodes.io/postcodes/${searchTerm}`)
+      .then(res => {
+        console.log(res)
+      })
+      .catch(err => {
+        console.log(err)
+      })
   }
   return (
     <div className="App">
