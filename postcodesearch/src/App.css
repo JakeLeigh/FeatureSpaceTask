@@ -8,3 +8,12 @@
 h3 {
   padding-bottom: 1rem;
 }
+
+.resultValue {
+  color: white;
+}
+
+.submitButton {
+  background-color: #9c66ef!important;
+  border: none;
+}

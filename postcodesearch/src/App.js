@@ -9,7 +9,8 @@ function App() {
 
   const callApi = (e) => {
     e.preventDefault();
-    axios.get(`http://api.postcodes.io/postcodes/${searchTerm}`)
+    if(searchTerm.match('^([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9]?[A-Za-z])))) [0-9][A-Za-z]{2})$') != null){
+      axios.get(`http://api.postcodes.io/postcodes/${searchTerm}`)
       .then(res => {
         setResults(res.data.result);
       })
@@ -24,22 +25,23 @@ function App() {
       .catch(err => {
         console.log(err)
       })
+    }
+    else {
+      console.log('invalid postcode');
+    }
   }
   return (
     <div className="App">
       <div className='container'>
-        <div className='titleDiv'>
-          <h1>Welcome to Postcode Searcher</h1>
-        </div>
         <div className='form comp'>
           <h3>Enter Postcode</h3>
-          <form>
+          <form className="was-validated" data-toggle="validator">
             <input type='text' placeholder='CB4 0GF' value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}/>
-            <button type="submit" className="btn btn-primary" onClick={callApi}>Submit</button>
+            <button type="submit" className="btn btn-primary btn-sm submitButton" onClick={callApi}>Submit</button>
           </form>
           <div className='resultsDiv'>
-            <h5>Country: <span id='country'>{results.country}</span></h5>
-            <h5>Region: <span id='region'>{results.region}</span></h5>
+            <h5>Country: <span className='resultValue'>{results.country}</span></h5>
+            <h5>Region: <span className='resultValue'>{results.region}</span></h5>
           </div>
         </div>
         <div className='comp relatedPostcodes'>
@@ -62,7 +64,6 @@ function App() {
               </tr>
               )
             })}
-           
           </tbody>
         </table>
         </div>
