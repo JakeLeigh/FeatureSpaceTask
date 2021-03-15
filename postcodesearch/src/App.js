@@ -5,13 +5,21 @@ import './App.css';
 function App() {
   const [searchTerm, setSearchTerm] = useState('');
   const [results, setResults] = useState({});
+  const [nearestResults, setNearestResults] = useState([]);
 
   const callApi = (e) => {
     e.preventDefault();
     axios.get(`http://api.postcodes.io/postcodes/${searchTerm}`)
       .then(res => {
-        console.log(res);
         setResults(res.data.result);
+      })
+      .catch(err => {
+        console.log(err)
+      })
+
+      axios.get(`http://api.postcodes.io/postcodes/${searchTerm}/nearest`)
+      .then(res => {
+       setNearestResults(res.data.result);
       })
       .catch(err => {
         console.log(err)
@@ -36,7 +44,7 @@ function App() {
         </div>
         <div className='comp relatedPostcodes'>
           <h3>Nearest Postcodes</h3>
-        <table class="table table-striped table-dark">
+        <table className="table table-striped table-dark">
           <thead>
             <tr>
               <th scope="col">Postcode</th>
@@ -45,11 +53,15 @@ function App() {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <th scope="row">CB4 0GF</th>
-              <td>England</td>
-              <td>East Of England</td>
-            </tr>
+            {nearestResults.map((result, i) => {
+              return (
+                <tr key={i}>
+                <th scope="row">{result.postcode}</th>
+                <td>{result.country}</td>
+                <td>{result.region}</td>
+              </tr>
+              )
+            })}
            
           </tbody>
         </table>
