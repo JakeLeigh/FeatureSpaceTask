@@ -6,10 +6,12 @@ function App() {
   const [searchTerm, setSearchTerm] = useState('');
   const [results, setResults] = useState({});
   const [nearestResults, setNearestResults] = useState([]);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const callApi = (e) => {
     e.preventDefault();
     if(searchTerm.match('^([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9]?[A-Za-z])))) [0-9][A-Za-z]{2})$') != null){
+      setErrorMessage('');
       axios.get(`http://api.postcodes.io/postcodes/${searchTerm}`)
       .then(res => {
         setResults(res.data.result);
@@ -27,7 +29,7 @@ function App() {
       })
     }
     else {
-      console.log('invalid postcode');
+     setErrorMessage('Please Please enter a postcode and make sure it is valid');
     }
   }
   return (
@@ -36,7 +38,8 @@ function App() {
         <div className='form comp'>
           <h3>Enter Postcode</h3>
           <form className="was-validated" data-toggle="validator">
-            <input type='text' placeholder='CB4 0GF' value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}/>
+            <input type='text' placeholder='CB4 0GF' value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} required="required"/>
+              <div className="error">{errorMessage}</div>
             <button type="submit" className="btn btn-primary btn-sm submitButton" onClick={callApi}>Submit</button>
           </form>
           <div className='resultsDiv'>

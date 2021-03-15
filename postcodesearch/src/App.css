@@ -17,3 +17,7 @@ h3 {
   background-color: #9c66ef!important;
   border: none;
 }
+
+.error {
+  color: red;
+}
