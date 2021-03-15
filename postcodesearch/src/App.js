@@ -17,7 +17,7 @@ function App() {
         setResults(res.data.result);
       })
       .catch(err => {
-        console.log(err)
+        setErrorMessage('There has been an internal server error, please try again later');
       })
 
       axios.get(`http://api.postcodes.io/postcodes/${searchTerm}/nearest`)
@@ -25,7 +25,7 @@ function App() {
        setNearestResults(res.data.result);
       })
       .catch(err => {
-        console.log(err)
+        setErrorMessage('There has been an internal server error, please try again later');
       })
     }
     else {
