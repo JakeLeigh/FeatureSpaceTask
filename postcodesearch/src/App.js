@@ -3,6 +3,11 @@ import './App.css';
 
 function App() {
   const [searchTerm, setSearchTerm] = useState('');
+
+  const callApi = (e) => {
+    e.preventDefault();
+    console.log(searchTerm);
+  }
   return (
     <div className="App">
       <div className='container'>
@@ -12,7 +17,7 @@ function App() {
         <div className='form'>
           <form>
             <input type='text' placeholder='Enter Postcode' value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}/>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" className="btn btn-primary" onClick={callApi}>Submit</button>
           </form>
         </div>
       </div>
