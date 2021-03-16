@@ -1,10 +1,10 @@
 //import Raect library and useState to handle state properties
 import React, {useState} from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
 //import axios library
 import axios from 'axios';
 //import style sheet for app comp
 import './App.css';
+import { useHistory } from 'react-router-dom';
 
 function App() {
   //define state and setstate properties for the search term, general result, nearest result list, and the error message
@@ -12,13 +12,14 @@ function App() {
   const [results, setResults] = useState({});
   const [nearestResults, setNearestResults] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
-
+  const history = useHistory();
   //function that is called when submit button clicked
   const callApi = (e) => {
     //stop page from refreshing by default when button is clicked
     e.preventDefault();
     //if the search term state prop the user enters matches the postcode regex formula provided by the government then we can call the apis
     if(searchTerm.match('^([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9]?[A-Za-z])))) [0-9][A-Za-z]{2})$') != null){
+      history.push(`/${searchTerm}`);
       //set error message to empty string in order to hide message
       setErrorMessage('');
       //using axios.get function and string interpolation to create a url with the searchterm appended
